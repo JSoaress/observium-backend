@@ -1,9 +1,10 @@
 import { UnitOfWork } from "ts-arch-kit/dist/database";
 
-import { IUserRepository, IUserTokenRepository } from "@/app/users/application/repos";
+import { IAPIKeyRepository, IUserRepository, IUserTokenRepository } from "@/app/users/application/repos";
 
 export interface IRepositoryFactory {
     createUnitOfWork(): UnitOfWork;
     createUserRepository(): IUserRepository;
     createUserTokenRepository(): IUserTokenRepository;
+    createAPIKeyRepository(): IAPIKeyRepository;
 }

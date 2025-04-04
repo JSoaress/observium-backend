@@ -570,6 +570,11 @@
   dependencies:
     tslib "^2.4.0"
 
+"@types/chance@^1.1.6":
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/@types/chance/-/chance-1.1.6.tgz#2fe3de58742629602c3fbab468093b27207f04ad"
+  integrity sha512-V+pm3stv1Mvz8fSKJJod6CglNGVqEQ6OyuqitoDkWywEODM/eJd1eSuIp9xt6DrX8BWZ2eDSIzbw1tPCUTvGbQ==
+
 "@types/conventional-commits-parser@^5.0.0":
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/@types/conventional-commits-parser/-/conventional-commits-parser-5.0.1.tgz#8cb81cf170853496cbc501a3b32dcf5e46ffb61a"
@@ -1152,6 +1157,11 @@ chalk@^5.3.0:
   version "5.4.1"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-5.4.1.tgz#1b48bf0963ec158dce2aacf69c093ae2dd2092d8"
   integrity sha512-zgVZuo2WcZgfUEmsn6eO3kINexW8RAE4maiQ8QNs8CtpPCSyMiYsULR3HQYkm3w8FIA3SberyMJMSldGsW+U3w==
+
+chance@^1.1.12:
+  version "1.1.12"
+  resolved "https://registry.yarnpkg.com/chance/-/chance-1.1.12.tgz#6a263cf241674af50a1b903357f9d328a6f252fb"
+  integrity sha512-vVBIGQVnwtUG+SYe0ge+3MvF78cvSpuCOEUJr7sVEk2vSBuMW6OXNJjSzdtzrlxNUEaoqH2GBd5Y/+18BEB01Q==
 
 chardet@^0.7.0:
   version "0.7.0"

@@ -18,6 +18,7 @@
         "@commitlint/cli": "^19.7.1",
         "@commitlint/config-conventional": "^19.7.1",
         "@tsconfig/node20": "^20.1.5",
+        "@types/uuid": "^10.0.0",
         "@typescript-eslint/eslint-plugin": "^5.26.0",
         "@typescript-eslint/parser": "^5.26.0",
         "commitizen": "^4.3.1",
@@ -44,6 +45,7 @@
     },
     "dependencies": {
         "ts-arch-kit": "^2.3.0",
+        "uuid": "^11.1.0",
         "zod": "^3.24.2"
     }
 }

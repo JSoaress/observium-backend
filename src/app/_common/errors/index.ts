@@ -67,3 +67,15 @@ export class MissingParamError extends BasicError {
         );
     }
 }
+
+export class InvalidCredentialsError extends BasicError {
+    constructor() {
+        super("Credenciais inválidas.", true);
+    }
+}
+
+export class InvalidTokenError extends BasicError {
+    constructor(message = "Token inválido.") {
+        super(message, true);
+    }
+}

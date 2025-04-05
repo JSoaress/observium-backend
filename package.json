@@ -19,6 +19,7 @@
         "@commitlint/cli": "^19.7.1",
         "@commitlint/config-conventional": "^19.7.1",
         "@tsconfig/node20": "^20.1.5",
+        "@types/bcrypt": "^5.0.2",
         "@types/chance": "^1.1.6",
         "@types/nodemailer": "^6.4.17",
         "@types/uuid": "^10.0.0",
@@ -48,6 +49,7 @@
         }
     },
     "dependencies": {
+        "bcrypt": "^5.1.1",
         "chance": "^1.1.12",
         "env-var": "^7.5.0",
         "handlebars": "^4.7.8",

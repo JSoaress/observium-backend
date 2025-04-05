@@ -11,6 +11,7 @@ export async function up(knex: Knex): Promise<void> {
         table.string("method").defaultTo("");
         table.integer("status_code").notNullable().defaultTo(0);
         table.string("status_text").defaultTo(null);
+        table.string("level").notNullable();
         table.decimal("duration", 10, 4).defaultTo(0);
         table.jsonb("context").defaultTo(null);
         table.jsonb("response").defaultTo(null);

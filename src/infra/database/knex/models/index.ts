@@ -1,4 +1,4 @@
-import { LogType } from "@/app/logs/domain/models/log";
+import { LogLevels, LogType } from "@/app/logs/domain/models/log";
 
 export type KnexModel = { id: string };
 
@@ -24,6 +24,7 @@ export type KnexLogDTO = KnexModel & {
     method: string;
     status_code: number;
     status_text: string | null;
+    level: LogLevels;
     duration: number;
     context: Record<string, unknown> | null;
     response: Record<string, unknown> | null;

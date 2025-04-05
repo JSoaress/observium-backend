@@ -26,10 +26,10 @@ export class CheckAuthenticatedUserUseCase extends UseCase<
         this.jwtAdapter = jwtAdapter;
     }
 
-    protected async impl({ token }: CheckAuthenticatedUserUseCaseInput): Promise<CheckAuthenticatedUserUseCaseOutput> {
-        if (!token) return left(new MissingParamError("token"));
+    protected async impl(input: CheckAuthenticatedUserUseCaseInput): Promise<CheckAuthenticatedUserUseCaseOutput> {
+        if (!input.requestUserToken) return left(new MissingParamError("requestUserToken"));
         return this.unitOfWork.execute<CheckAuthenticatedUserUseCaseOutput>(async () => {
-            const decodedTokenOrError = this.jwtAdapter.verify(token, "secret-observium");
+            const decodedTokenOrError = this.jwtAdapter.verify(input.requestUserToken, "secret-observium");
             if (decodedTokenOrError.isLeft()) return left(decodedTokenOrError.value);
             const email = decodedTokenOrError.value;
             const user = await this.userRepository.findOne({ filter: { email } });

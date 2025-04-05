@@ -11,7 +11,7 @@ export type CheckAuthenticatedUserUseCaseGateway = {
 };
 
 export type CheckAuthenticatedUserUseCaseInput = {
-    token: string;
+    requestUserToken: string;
 };
 
 export type CheckAuthenticatedUserUseCaseOutput = Either<MissingParamError | InvalidTokenError | NotFoundModelError, User>;

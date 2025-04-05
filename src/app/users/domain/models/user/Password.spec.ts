@@ -10,7 +10,7 @@ describe("value object password", () => {
         const passwordOrError = await Password.create(plainPassword);
         expect(passwordOrError.isRight()).toBeTruthy();
         const password = passwordOrError.value as Password;
-        expect(password.getValue().startsWith("$2b$10")).toBeTruthy();
+        expect(password.getValue().startsWith("$2b$12$")).toBeTruthy();
         expect(password.getValue()).not.toBe(plainPassword);
     });
 
@@ -22,13 +22,13 @@ describe("value object password", () => {
     });
 
     test("should validate a encrypted password", async () => {
-        const password = Password.restore("$2b$10$xoWc0WuEv9F4/Y3gHoH08uys09mPnaNmdvZLEewdSijHnoQQUZAZS");
+        const password = Password.restore("$2b$12$.5E64r47mdQ5aS5QPF8LvORVZgTiHXZ8rX1fk07vsa7nZf9B0kPSK");
         const matchPassword = await password.verify("0b5erv!umm");
         expect(matchPassword).toBeTruthy();
     });
 
     test("should not validate a encrypted password (different passwords)", async () => {
-        const password = Password.restore("$2b$10$xoWc0WuEv9F4/Y3gHoH08uys09mPnaNmdvZLEewdSijHnoQQUZAZS");
+        const password = Password.restore("$2b$12$.5E64r47mdQ5aS5QPF8LvORVZgTiHXZ8rX1fk07vsa7nZf9B0kPSK");
         const matchPassword = await password.verify("0b5erv!um");
         expect(matchPassword).toBeFalsy();
     });

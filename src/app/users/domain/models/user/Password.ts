@@ -1,3 +1,4 @@
+import { hash, compare } from "bcrypt";
 import { Either, left, right } from "ts-arch-kit/dist/core/helpers";
 
 import { InvalidPasswordError } from "@/app/_common/errors";
@@ -12,7 +13,8 @@ export class Password {
     static async create(plainPassword: string): Promise<Either<InvalidPasswordError, Password>> {
         if (!plainPassword) return left(new InvalidPasswordError("A senha não foi fornecida."));
         // TODO: validar força da senha
-        return right(new Password(plainPassword));
+        const hashPassword = await hash(plainPassword, 12);
+        return right(new Password(hashPassword));
     }
 
     static restore(password: string) {
@@ -20,7 +22,7 @@ export class Password {
     }
 
     async verify(plainPassword: string): Promise<boolean> {
-        return this.value === plainPassword;
+        return compare(plainPassword, this.value);
     }
 
     getValue() {

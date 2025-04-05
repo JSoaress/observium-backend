@@ -13,7 +13,7 @@ export class User extends Model<UserDTO> {
     }
 
     static async create(props: CreateUserDTO): Promise<Either<ValidationError | InvalidPasswordError, User>> {
-        const validDataOrError = ZodValidator.validate(props, UserSchema);
+        const validDataOrError = ZodValidator.validate({ ...props, active: false }, UserSchema);
         if (!validDataOrError.success) return left(new ValidationError(User.name, validDataOrError.errors));
         const passwordOrError = await Password.create(props.password);
         if (passwordOrError.isLeft()) return left(passwordOrError.value);

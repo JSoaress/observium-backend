@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-types */
+import { IUseCase } from "ts-arch-kit/dist/core/application";
 import { CreateUseCase } from "ts-arch-kit/dist/core/application/crud";
 import { BasicError } from "ts-arch-kit/dist/core/errors";
 import { Either, left, right } from "ts-arch-kit/dist/core/helpers";
@@ -12,13 +13,10 @@ import { Model } from "../../Model";
 
 type Output<T, E extends BasicError = BasicError> = Either<E, T>;
 
-export class GenericCreateUseCase<TModel extends Model<any>, TInput> extends CreateUseCase<
-    TModel,
-    TInput,
-    Output<TModel>,
-    Output<TModel>,
-    Output<TModel>
-> {
+export class GenericCreateUseCase<TModel extends Model<any>, TInput>
+    extends CreateUseCase<TModel, TInput, Output<TModel>, Output<TModel>, Output<TModel>>
+    implements IUseCase<TInput, Output<TModel>>
+{
     protected unitOfWork: UnitOfWork;
     protected repository: IRepository<TModel>;
 
@@ -31,6 +29,10 @@ export class GenericCreateUseCase<TModel extends Model<any>, TInput> extends Cre
         this.unitOfWork = repositoryFactory.createUnitOfWork();
         this.repository = createRepository();
         this.unitOfWork.prepare(this.repository);
+    }
+
+    async execute(input: TInput): Promise<Output<TModel, BasicError>> {
+        return this.create(input);
     }
 
     async create(input: TInput): Promise<Output<TModel, BasicError>> {

@@ -1,3 +1,4 @@
+import { IUseCase } from "ts-arch-kit/dist/core/application";
 import { FetchUseCase } from "ts-arch-kit/dist/core/application/crud";
 import { BasicError } from "ts-arch-kit/dist/core/errors";
 import { Either, left, right } from "ts-arch-kit/dist/core/helpers";
@@ -12,11 +13,14 @@ import { Model } from "../../Model";
 export type GenericFetchOutput<T> = Either<UnknownError, Pagination<T>>;
 
 export abstract class GenericFetchUseCase<
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    TModel extends Model<any>,
-    TInput extends { queryOptions?: QueryOptions },
-    TFetchResult = TModel
-> extends FetchUseCase<TModel, TInput, GenericFetchOutput<TModel | TFetchResult>, TFetchResult> {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        TModel extends Model<any>,
+        TInput extends { queryOptions?: QueryOptions },
+        TFetchResult = TModel
+    >
+    extends FetchUseCase<TModel, TInput, GenericFetchOutput<TModel | TFetchResult>, TFetchResult>
+    implements IUseCase<TInput, GenericFetchOutput<TModel | TFetchResult>>
+{
     protected unitOfWork: UnitOfWork;
     protected repository: IRepository<TModel>;
 
@@ -25,6 +29,10 @@ export abstract class GenericFetchUseCase<
         this.unitOfWork = repositoryFactory.createUnitOfWork();
         this.repository = createRepository();
         this.unitOfWork.prepare(this.repository);
+    }
+
+    async execute(input: TInput): Promise<GenericFetchOutput<TModel | TFetchResult>> {
+        return this.fetch(input);
     }
 
     async fetch(input: TInput): Promise<GenericFetchOutput<TModel | TFetchResult>> {

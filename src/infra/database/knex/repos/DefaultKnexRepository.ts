@@ -86,7 +86,8 @@ export class DefaultKnexRepository<TDomain extends Model<any>, TPersistence exte
     }
 
     getTransaction(): Knex.Transaction {
-        if (!this.uow) throw new DbTransactionNotPreparedError("O UnitOfWork não foi preparado.");
+        if (!this.uow)
+            throw new DbTransactionNotPreparedError(`O UnitOfWork não foi preparado para a tabela "${this.tableName}".`);
         return this.uow.getTransaction();
     }
 

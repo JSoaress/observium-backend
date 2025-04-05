@@ -18,8 +18,11 @@ export class KnexRepositoryFactory implements IRepositoryFactory {
     }
 
     createUserTokenRepository(): IUserTokenRepository {
-        // return new repos.DefaultKnexRepository("user_tokens", new mappers.KnexUserTokenMapper())
-        throw new Error("Method not implemented.");
+        return new repos.DefaultKnexRepository(
+            "user_tokens",
+            new mappers.KnexUserTokenMapper(),
+            mappers.KNEX_USER_TOKEN_FILTER
+        );
     }
 
     createAPIKeyRepository(): IAPIKeyRepository {

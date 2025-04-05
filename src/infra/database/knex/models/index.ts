@@ -9,6 +9,13 @@ export type KnexUserDTO = KnexModel & {
     is_active: boolean;
 };
 
+export type KnexUserTokenDTO = KnexModel & {
+    user_id: string;
+    token: string;
+    type: "activation" | "reset-password";
+    created_at: Date;
+};
+
 export type KnexProjectDTO = KnexModel & {
     name: string;
     description: string | null;

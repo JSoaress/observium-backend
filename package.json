@@ -1,8 +1,8 @@
 {
-    "name": "bp-node-api",
+    "name": "observium-backend",
     "version": "1.0.0",
     "main": "index.js",
-    "repository": "git@github.com:JSoaress/bp-node-api.git",
+    "repository": "git@github.com:JSoaress/observium-backend.git",
     "author": "João Vitor <joao_vitorsgs@hotmail.com>",
     "license": "MIT",
     "engines": {
@@ -12,7 +12,8 @@
         "dev": "tsx watch src/server.ts",
         "build": "tsup src",
         "test": "vitest",
-        "husky:prepare": "husky init"
+        "husky:prepare": "husky init",
+        "knex:dev": "knex --knexfile ./src/infra/database/knex/knexfile.ts"
     },
     "devDependencies": {
         "@commitlint/cli": "^19.7.1",
@@ -50,7 +51,10 @@
         "chance": "^1.1.12",
         "env-var": "^7.5.0",
         "handlebars": "^4.7.8",
+        "isobject": "^4.0.0",
+        "knex": "^3.1.0",
         "nodemailer": "^6.10.0",
+        "pg": "^8.14.1",
         "ts-arch-kit": "^2.3.0",
         "uuid": "^11.1.0",
         "zod": "^3.24.2"

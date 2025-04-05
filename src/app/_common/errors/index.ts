@@ -79,3 +79,15 @@ export class InvalidTokenError extends BasicError {
         super(message, true);
     }
 }
+
+export class ConflictError extends BasicError {
+    constructor(message: string) {
+        super(message, true);
+    }
+}
+
+export class EmailTakenError extends ConflictError {
+    constructor(email: string) {
+        super(`O email "${email}" já está em uso por outro usuário.`);
+    }
+}

@@ -22,7 +22,7 @@ export class CreateUserUseCase extends UseCase<CreateUserUseCaseInput, CreateUse
         this.unitOfWork = repositoryFactory.createUnitOfWork();
         this.userRepository = repositoryFactory.createUserRepository();
         this.userTokenRepository = repositoryFactory.createUserTokenRepository();
-        this.unitOfWork.prepare(this.userRepository);
+        this.unitOfWork.prepare(this.userRepository, this.userTokenRepository);
         this.mailProvider = mailProvider;
     }
 
@@ -37,7 +37,7 @@ export class CreateUserUseCase extends UseCase<CreateUserUseCaseInput, CreateUse
             const userTokenOrError = UserToken.createActivation({ user: newUser });
             if (userTokenOrError.isLeft()) return left(userTokenOrError.value);
             const newUserToken = await this.userTokenRepository.save(userTokenOrError.value);
-            const templatePath = resolve(__dirname, "..", "..", "views", "emails", "activate-account.hbs");
+            const templatePath = resolve(__dirname, "..", "..", "..", "views", "emails", "activate-account.hbs");
             const variables = {
                 platform: env.platformName,
                 name: newUser.name,

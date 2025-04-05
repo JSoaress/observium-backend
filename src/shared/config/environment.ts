@@ -3,6 +3,7 @@ import envVar from "env-var";
 export const env = {
     nodeEnv: envVar.get("NODE_ENV").default("development").asString(),
     platformName: envVar.get("PLATFORM").default("Observium").asString(),
+    allowedHost: envVar.get("ALLOWED_HOST").default("*").asString(),
     authTokenSecret: envVar.get("JWT_TOKEN_SECRET").required().asString(),
     authTokenExpiresIn: envVar.get("JWT_TOKEN_EXPIRES_IN").default("1d").asString(),
     databaseProvider: envVar.get("DATABASE_PROVIDER").required().asString(),

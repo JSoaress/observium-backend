@@ -9,7 +9,7 @@
         "node": ">=20"
     },
     "scripts": {
-        "dev": "tsx watch src/server.ts",
+        "dev": "tsx watch --env-file=.env src/main-http.ts",
         "build": "tsup src",
         "test": "vitest",
         "husky:prepare": "husky init",
@@ -21,6 +21,9 @@
         "@tsconfig/node20": "^20.1.5",
         "@types/bcrypt": "^5.0.2",
         "@types/chance": "^1.1.6",
+        "@types/cors": "^2.8.17",
+        "@types/express": "^5.0.1",
+        "@types/jsonwebtoken": "^9.0.9",
         "@types/nodemailer": "^6.4.17",
         "@types/uuid": "^10.0.0",
         "@typescript-eslint/eslint-plugin": "^5.26.0",
@@ -51,9 +54,14 @@
     "dependencies": {
         "bcrypt": "^5.1.1",
         "chance": "^1.1.12",
+        "cors": "^2.8.5",
         "env-var": "^7.5.0",
+        "express": "^5.1.0",
+        "express-async-errors": "^3.1.1",
         "handlebars": "^4.7.8",
+        "helmet": "^8.1.0",
         "isobject": "^4.0.0",
+        "jsonwebtoken": "^9.0.2",
         "knex": "^3.1.0",
         "nodemailer": "^6.10.0",
         "pg": "^8.14.1",

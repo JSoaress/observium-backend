@@ -5,7 +5,7 @@ import { UseCase } from "@/app/_common";
 import { MissingParamError, NotFoundModelError } from "@/app/_common/errors";
 import { User, UserToken } from "@/app/users/domain/models/user";
 
-import { IUserRepository, IUserTokenRepository } from "../../repos";
+import { IUserRepository, IUserTokenRepository } from "../../../repos";
 import { ActivateUserUseCaseGateway, ActivateUserUseCaseInput, ActivateUserUseCaseOutput } from "./types";
 
 export class ActivateUserUseCase extends UseCase<ActivateUserUseCaseInput, ActivateUserUseCaseOutput> {
@@ -30,6 +30,7 @@ export class ActivateUserUseCase extends UseCase<ActivateUserUseCaseInput, Activ
             if (!user) return left(new NotFoundModelError(User.name, userToken.userId));
             user.activate();
             await this.userRepository.save(user);
+            await this.userTokenRepository.destroy(userToken);
             return right(undefined);
         });
     }

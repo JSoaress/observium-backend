@@ -14,4 +14,4 @@ export type CreateUserTokenDTO = {
     user: User;
 };
 
-export type RestoreUserToken = RequireOnly<UserTokenDTO, "id">;
+export type RestoreUserTokenDTO = RequireOnly<UserTokenDTO, "id">;

@@ -4,7 +4,7 @@ import { Either, right } from "ts-arch-kit/dist/core/helpers";
 import { Model } from "@/app/_common";
 import { UnknownError } from "@/app/_common/errors";
 
-import { CreateUserTokenDTO, UserTokenDTO } from "./UserTokenDTO";
+import { CreateUserTokenDTO, RestoreUserTokenDTO, UserTokenDTO } from "./UserTokenDTO";
 
 export class UserToken extends Model<UserTokenDTO> {
     private constructor(props: UserTokenDTO) {
@@ -29,6 +29,10 @@ export class UserToken extends Model<UserTokenDTO> {
             createdAt: new Date(),
         };
         return right(new UserToken(data));
+    }
+
+    static restore(props: RestoreUserTokenDTO) {
+        return new UserToken(props);
     }
 
     get userId() {

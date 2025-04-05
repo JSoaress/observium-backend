@@ -8,11 +8,12 @@ import { CreateLogDTO } from "./LogDTO";
 describe("domain entity log", () => {
     test("should create a log of type API", () => {
         const input: CreateLogDTO = {
-            type: "API",
+            type: "HTTP",
             projectId: "0195fea2-33f6-7bb8-858a-577665de1472",
             path: "/api/users",
-            method: "get",
+            method: "GET",
             statusCode: 200,
+            level: "info",
             duration: 0.15,
             context: { query: { limit: 10 } },
             response: { users: [] },
@@ -22,10 +23,11 @@ describe("domain entity log", () => {
         expect(logOrError.isRight()).toBeTruthy();
         const log = logOrError.value as Log;
         expect(UUID.validate(log.getId())).toBeTruthy();
-        expect(log.type).toBe("API");
+        expect(log.type).toBe("HTTP");
         expect(log.projectId).toBe("0195fea2-33f6-7bb8-858a-577665de1472");
         expect(log.path).toBe("/api/users");
         expect(log.method).toBe("GET");
+        expect(log.level).toBe("info");
         expect(log.statusCode).toBe(200);
         expect(log.statusText).toBeNull();
         expect(log.duration).toBe(0.15);
@@ -41,6 +43,7 @@ describe("domain entity log", () => {
             path: "create user",
             method: "CREATE",
             statusText: "success",
+            level: "silly",
             duration: 0.25,
             context: { userEmail: "user@example.com" },
             response: { userId: "123" },
@@ -56,6 +59,7 @@ describe("domain entity log", () => {
         expect(log.method).toBe("CREATE");
         expect(log.statusCode).toBe(0);
         expect(log.statusText).toBe("success");
+        expect(log.level).toBe("silly");
         expect(log.duration).toBe(0.25);
         expect(log.context).toEqual({ userEmail: "user@example.com" });
         expect(log.response).toEqual({ userId: "123" });
@@ -68,6 +72,7 @@ describe("domain entity log", () => {
             projectId: "0195fea2-33f6-7bb8-858a-577665de1472",
             path: "user registration",
             method: "",
+            level: "error",
             duration: 0.37,
             context: { source: "signup form" },
             response: null,
@@ -83,6 +88,7 @@ describe("domain entity log", () => {
         expect(log.method).toBe("");
         expect(log.statusCode).toBe(0);
         expect(log.statusText).toBeNull();
+        expect(log.level).toBe("error");
         expect(log.duration).toBe(0.37);
         expect(log.context).toEqual({ source: "signup form" });
         expect(log.response).toBeNull();

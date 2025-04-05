@@ -45,6 +45,10 @@ export class Log extends Model<LogDTO> {
         return this.props.statusText;
     }
 
+    get level() {
+        return this.props.level;
+    }
+
     get duration() {
         return this.props.duration;
     }

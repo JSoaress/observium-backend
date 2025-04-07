@@ -6,6 +6,7 @@ export const env = {
     allowedHost: envVar.get("ALLOWED_HOST").default("*").asString(),
     authTokenSecret: envVar.get("JWT_TOKEN_SECRET").required().asString(),
     authTokenExpiresIn: envVar.get("JWT_TOKEN_EXPIRES_IN").default("1d").asString(),
+    apiKeySecret: envVar.get("JWT_API_KEY_SECRET").required().asString(),
     databaseProvider: envVar.get("DATABASE_PROVIDER").required().asString(),
     databaseHost: envVar.get("DATABASE_HOST").required().asString(),
     databasePort: envVar.get("DATABASE_PORT").required().asInt(),

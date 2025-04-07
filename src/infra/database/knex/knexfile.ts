@@ -17,6 +17,11 @@ const config: { [key: string]: Knex.Config } = {
         pool: {
             min: 2,
             max: 10,
+            afterCreate: (conn, done) => {
+                conn.query("SET timezone='America/Sao_Paulo'", (err) => {
+                    done(err, conn);
+                });
+            },
         },
         migrations: {
             extension: "ts",

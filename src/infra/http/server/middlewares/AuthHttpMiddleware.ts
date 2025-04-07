@@ -14,7 +14,6 @@ export class AuthHttpMiddleware implements IHttpMiddleware {
             const requestUserToken = authHeader.length ? authHeader[0] : "";
             return right({ ...req, requestUserToken });
         }
-        const [, requestUserToken] = authHeader.split(" ");
-        return right({ ...req, requestUserToken });
+        return right({ ...req, requestUserToken: authHeader });
     }
 }

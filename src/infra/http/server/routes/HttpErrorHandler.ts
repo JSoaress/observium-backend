@@ -19,6 +19,7 @@ export class HttpErrorHandler extends ErrorHandler<HttpError> {
             case appErrors.InvalidTokenError:
                 return new HttpError(HttpStatusCodes.UNAUTHORIZED, err);
             // 404
+            case appErrors.NotFoundModelError:
             case infraErrors.HttpRouteNotFoundError:
                 return new HttpError(HttpStatusCodes.NOT_FOUND, err);
             // 409

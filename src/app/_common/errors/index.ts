@@ -91,3 +91,9 @@ export class EmailTakenError extends ConflictError {
         super(`O email "${email}" já está em uso por outro usuário.`);
     }
 }
+
+export class InvalidAPIKeyError extends ConflictError {
+    constructor(message: string) {
+        super(message);
+    }
+}

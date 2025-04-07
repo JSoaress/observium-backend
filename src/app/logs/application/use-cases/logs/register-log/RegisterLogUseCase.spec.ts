@@ -2,17 +2,26 @@ import { beforeAll, describe, expect, test } from "vitest";
 
 import { Password, User } from "@/app/users/domain/models/user";
 import { RepositoryFactory } from "@/infra/database";
+import { IWebSocket, SendMessageClientWebSocket } from "@/infra/socket";
 import { UUID } from "@/shared/helpers";
 
+import { RegisterLogUseCase } from "./RegisterLogUseCase";
 import { RegisteredLog, RegisterLogUseCaseInput } from "./types";
-import { RegisterLogUseCase } from "./use-case";
 
 let useCase: RegisterLogUseCase;
 let requestUser: User;
 
 beforeAll(() => {
     const repositoryFactory = RepositoryFactory.getRepository("knex");
-    useCase = new RegisterLogUseCase({ repositoryFactory });
+    const webSocket: IWebSocket = new (class {
+        send(message: SendMessageClientWebSocket): void {
+            console.log("fake socket", message);
+        }
+        close(): void {
+            // empty
+        }
+    })();
+    useCase = new RegisterLogUseCase({ repositoryFactory, webSocket });
     requestUser = User.restore({
         id: "01960396-cdd9-732c-856e-d5300c1f7d82",
         name: "John Doe",

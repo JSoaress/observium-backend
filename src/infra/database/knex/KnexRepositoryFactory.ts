@@ -26,7 +26,7 @@ export class KnexRepositoryFactory implements IRepositoryFactory {
     }
 
     createAPIKeyRepository(): IAPIKeyRepository {
-        throw new Error("Method not implemented.");
+        return new repos.DefaultKnexRepository("api_keys", new mappers.KnexAPIKeyMapper(), mappers.KNEX_API_KEY_FILTER);
     }
 
     createProjectRepository(): IProjectRepository {

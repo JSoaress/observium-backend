@@ -40,4 +40,9 @@ export class APIKey extends Model<APIKeyDTO> {
     get active() {
         return this.props.active;
     }
+
+    isValid(date = new Date()) {
+        if (!this.active) return false;
+        return this.expiresIn ? this.expiresIn >= date : true;
+    }
 }

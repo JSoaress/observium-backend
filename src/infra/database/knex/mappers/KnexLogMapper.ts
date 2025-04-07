@@ -1,3 +1,4 @@
+import { parseNumber } from "ts-arch-kit/dist/core/helpers";
 import { IMapper } from "ts-arch-kit/dist/database";
 
 import { Log } from "@/app/logs/domain/models/log";
@@ -33,7 +34,7 @@ export class KnexLogMapper implements IMapper<Log, KnexLogDTO> {
             statusCode: persistence.status_code,
             statusText: persistence.status_text,
             level: persistence.level,
-            duration: persistence.duration,
+            duration: parseNumber(persistence.duration),
             context: persistence.context,
             response: persistence.response,
             error: persistence.error,

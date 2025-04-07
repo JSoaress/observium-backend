@@ -47,3 +47,8 @@ export type CreateLogDTO = Omit<z.input<Schema>, "createdAt">;
 export type RestoreLogDTO = RequireOnly<LogDTO, "id">;
 
 export type LogSimplifiedDTO = Omit<LogDTO, "context" | "response" | "error">;
+
+export type TotalDailyLogs = Record<LogLevels, number> & {
+    date: Date;
+    logs: number;
+};

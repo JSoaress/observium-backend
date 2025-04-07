@@ -41,7 +41,7 @@ export class CreateUserUseCase extends UseCase<CreateUserUseCaseInput, CreateUse
             const variables = {
                 platform: env.platformName,
                 name: newUser.name,
-                activationLink: `${env.webUrl}/activation-account?token=${newUserToken.token}`,
+                activationLink: `${env.webUrl}/auth/activation-account/${newUserToken.token}`,
                 year: new Date().getFullYear(),
             };
             await this.mailProvider.sendMail(newUser.email, "Ativação conta Observium", templatePath, variables);

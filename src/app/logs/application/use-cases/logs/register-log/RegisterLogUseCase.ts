@@ -42,6 +42,7 @@ export class RegisterLogUseCase extends UseCase<RegisterLogUseCaseInput, Registe
                     path: newLog.method,
                     statusCode: newLog.statusCode,
                     statusText: newLog.statusText,
+                    externalId: newLog.externalId,
                     level: newLog.level,
                     duration: newLog.duration,
                     createdAt: newLog.createdAt,

@@ -37,6 +37,10 @@ export class Log extends Model<LogDTO> {
         return this.props.method;
     }
 
+    get externalId() {
+        return this.props.externalId;
+    }
+
     get statusCode() {
         return this.props.statusCode;
     }

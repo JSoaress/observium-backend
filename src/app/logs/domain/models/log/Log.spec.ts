@@ -59,6 +59,7 @@ describe("domain entity log", () => {
         expect(log.method).toBe("CREATE");
         expect(log.statusCode).toBe(0);
         expect(log.statusText).toBe("success");
+        expect(log.externalId).toBeNull();
         expect(log.level).toBe("silly");
         expect(log.duration).toBe(0.25);
         expect(log.context).toEqual({ userEmail: "user@example.com" });
@@ -72,6 +73,7 @@ describe("domain entity log", () => {
             projectId: "0195fea2-33f6-7bb8-858a-577665de1472",
             path: "user registration",
             method: "",
+            externalId: "external-id",
             level: "error",
             duration: 0.37,
             context: { source: "signup form" },
@@ -88,6 +90,7 @@ describe("domain entity log", () => {
         expect(log.method).toBe("");
         expect(log.statusCode).toBe(0);
         expect(log.statusText).toBeNull();
+        expect(log.externalId).toBe("external-id");
         expect(log.level).toBe("error");
         expect(log.duration).toBe(0.37);
         expect(log.context).toEqual({ source: "signup form" });

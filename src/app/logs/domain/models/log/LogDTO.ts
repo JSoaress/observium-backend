@@ -24,6 +24,7 @@ export const LogSchema = z
         projectId: EntityIdSchema,
         path: z.string({ coerce: true }).min(1),
         method: z.string({ coerce: true }).toUpperCase(),
+        externalId: z.string({ coerce: true }).nullish().default(null),
         statusCode: z.number({ coerce: true }).int().nonnegative().default(0),
         statusText: z.string({ coerce: true }).nullish().default(null),
         level: z.enum(LOG_LEVELS_VALUES),

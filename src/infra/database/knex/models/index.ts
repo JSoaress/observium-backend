@@ -39,6 +39,7 @@ export type KnexLogDTO = KnexModel & {
     method: string;
     status_code: number;
     status_text: string | null;
+    external_id: string | null;
     level: LogLevels;
     duration: number;
     context: Record<string, unknown> | null;

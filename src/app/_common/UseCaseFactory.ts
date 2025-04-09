@@ -76,6 +76,6 @@ export class UseCaseFactory {
     }
 
     createAPIKeyUseCase(): CreateAPIKeyUseCase {
-        return new CreateAPIKeyUseCase({ repositoryFactory: this.repositoryFactory, jwtAdapter: this.jwtAdapter });
+        return new CreateAPIKeyUseCase({ repositoryFactory: this.repositoryFactory });
     }
 }

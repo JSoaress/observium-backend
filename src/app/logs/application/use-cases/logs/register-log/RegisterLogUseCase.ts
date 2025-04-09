@@ -35,18 +35,7 @@ export class RegisterLogUseCase extends UseCase<RegisterLogUseCaseInput, Registe
             const newLog = await this.logRepository.save(logOrError.value);
             this.webSocket.send({
                 event: "registered-log",
-                data: {
-                    id: newLog.getId(),
-                    type: newLog.type,
-                    projectId: newLog.projectId,
-                    path: newLog.method,
-                    statusCode: newLog.statusCode,
-                    statusText: newLog.statusText,
-                    externalId: newLog.externalId,
-                    level: newLog.level,
-                    duration: newLog.duration,
-                    createdAt: newLog.createdAt,
-                },
+                data: newLog.getSimplified(),
             });
             return right({ logId: newLog.getId() });
         });

@@ -4,7 +4,7 @@ import { Model } from "@/app/_common";
 import { ValidationError } from "@/app/_common/errors";
 import { ZodValidator } from "@/infra/libs/zod";
 
-import { CreateLogDTO, LogDTO, LogSchema, RestoreLogDTO } from "./LogDTO";
+import { CreateLogDTO, LogDTO, LogSchema, LogSimplifiedDTO, RestoreLogDTO } from "./LogDTO";
 
 export class Log extends Model<LogDTO> {
     private constructor(props: LogDTO) {
@@ -71,5 +71,21 @@ export class Log extends Model<LogDTO> {
 
     get createdAt() {
         return this.props.createdAt;
+    }
+
+    getSimplified(): LogSimplifiedDTO {
+        return {
+            id: this.getId(),
+            type: this.type,
+            projectId: this.projectId,
+            path: this.path,
+            method: this.method,
+            externalId: this.externalId,
+            statusCode: this.statusCode,
+            statusText: this.statusText,
+            level: this.level,
+            duration: this.duration,
+            createdAt: this.createdAt,
+        };
     }
 }

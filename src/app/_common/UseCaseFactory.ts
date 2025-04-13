@@ -7,6 +7,7 @@ import { IWebSocket } from "@/infra/socket";
 
 import { AuthenticateUserUseCase } from "../auth/application/use-cases/authenticate-user";
 import { AuthenticationDecorator } from "../auth/application/use-cases/authentication-decorator";
+import { FetchLogsUseCase } from "../logs/application/use-cases/logs/fetch-logs";
 import { GetDailyLogsUseCase } from "../logs/application/use-cases/logs/get-daily-logs";
 import { GetHourlyLogsUseCase } from "../logs/application/use-cases/logs/get-hourly-logs";
 import { GetLogByIdUseCase } from "../logs/application/use-cases/logs/get-log-by-id";
@@ -57,6 +58,10 @@ export class UseCaseFactory {
 
     getLogByIdUseCase(): GetLogByIdUseCase {
         return new GetLogByIdUseCase({ repositoryFactory: this.repositoryFactory });
+    }
+
+    fetchLogsUseCase(): FetchLogsUseCase {
+        return new FetchLogsUseCase({ repositoryFactory: this.repositoryFactory });
     }
 
     registerLogUseCase(): RegisterLogUseCase {

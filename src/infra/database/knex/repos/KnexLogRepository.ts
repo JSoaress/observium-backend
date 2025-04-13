@@ -26,8 +26,44 @@ export class KnexLogRepository extends DefaultKnexRepository<Log, KnexLogDTO> im
         super("logs", new KnexLogMapper(), KNEX_LOG_FILTER);
     }
 
-    findSimplified(queryOptions?: QueryOptions): Promise<LogSimplifiedDTO[]> {
-        throw new Error("Method not implemented.");
+    async findSimplified(queryOptions?: QueryOptions): Promise<LogSimplifiedDTO[]> {
+        const client = this.getTransaction();
+        const { filter, pagination, sort } = queryOptions || {};
+        const conn = client(this.tableName).select(
+            "id",
+            "type",
+            "project_id",
+            "path",
+            "method",
+            "external_id",
+            "status_code",
+            "status_text",
+            "level",
+            "duration",
+            "created_at"
+        );
+        this.filter(conn, filter);
+        if (sort) {
+            const { columns } = this.filterOptions;
+            sort.forEach((s) => {
+                conn.orderBy(columns[s.column].columnName, s.order, s.nulls);
+            });
+        }
+        if (pagination) conn.limit(pagination.limit).offset(pagination.skip);
+        const rows = await conn;
+        return rows.map((row) => ({
+            id: row.id,
+            type: row.type,
+            projectId: row.project_id,
+            path: row.path,
+            method: row.method,
+            externalId: row.external_id,
+            statusCode: row.status_code,
+            statusText: row.status_text,
+            level: row.level,
+            duration: parseNumber(row.duration),
+            createdAt: row.created_at,
+        }));
     }
 
     async getDailyLogsByProject(projectId: string): Promise<TotalDailyLogs> {

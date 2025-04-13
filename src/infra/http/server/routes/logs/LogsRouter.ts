@@ -5,6 +5,7 @@ import { httpErrorHandler } from "../HttpErrorHandler";
 import { HttpRoute } from "../HttpRoute";
 import { HttpRouter } from "../HttpRouter";
 import { CreateProjectHttpRoute } from "./CreateProjectHttpRoute";
+import { FetchLogsHttpRoute } from "./FetchLogsHttpRoute";
 import { FetchProjectsHttpRoute } from "./FetchProjectsHttpRoute";
 import { GetDailyLogsHttpRoute } from "./GetDailyLogsHttpRoute";
 import { GetHourlyLogsHttpRoute } from "./GetHourlyLogsHttpRoute";
@@ -45,6 +46,11 @@ export class LogsRouter extends HttpRouter {
             ),
             new GetLogByIdHttpRoute(
                 this.useCaseFactory.authenticationDecorator(this.useCaseFactory.getLogByIdUseCase()),
+                httpErrorHandler,
+                ...this.middlewares
+            ),
+            new FetchLogsHttpRoute(
+                this.useCaseFactory.authenticationDecorator(this.useCaseFactory.fetchLogsUseCase()),
                 httpErrorHandler,
                 ...this.middlewares
             ),

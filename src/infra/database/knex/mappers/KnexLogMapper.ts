@@ -16,6 +16,7 @@ export const KNEX_LOG_FILTER: DbFilterOptions = {
         statusCode: { columnName: "status_code", type: "number" },
         statusText: { columnName: "status_text", type: "string" },
         externalId: { columnName: "external_id", type: "string" },
+        level: { columnName: "level", type: "string" },
         duration: { columnName: "duration", type: "number" },
         context: { columnName: "context", type: "string" },
         response: { columnName: "response", type: "string" },

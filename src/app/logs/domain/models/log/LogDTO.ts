@@ -34,8 +34,8 @@ export const LogSchema = z
         error: z.record(z.any()).nullish().default(null),
         createdAt: z.date(),
     })
-    .refine((data) => data.type !== "OTHER" || !data.method.length, {
-        message: "Esse campo não pode ficar vazio quando o type é API ou SERVER-ACTION.",
+    .refine((data) => data.type === "OTHER" || data.method.length, {
+        message: "Esse campo não pode ficar vazio quando o type é HTTP ou SERVER-ACTION.",
         path: ["method"],
     });
 

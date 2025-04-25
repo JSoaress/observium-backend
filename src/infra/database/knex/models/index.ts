@@ -35,15 +35,12 @@ export type KnexProjectDTO = KnexModel & {
 export type KnexLogDTO = KnexModel & {
     type: LogType;
     project_id: string;
-    path: string;
-    method: string;
-    status_code: number;
-    status_text: string | null;
     external_id: string | null;
     level: LogLevels;
+    message: string;
     duration: number;
-    context: Record<string, unknown> | null;
-    response: Record<string, unknown> | null;
-    error: Record<string, unknown> | null;
+    context: string | null;
+    error: string | null;
+    stack: string | null;
     created_at: Date;
 };

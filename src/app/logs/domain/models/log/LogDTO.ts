@@ -67,18 +67,19 @@ export const LogSchema = z.object({
     context: LogContextSchema,
     error: z.record(z.any()).nullish().default(null),
     stack: z.record(z.any()).nullish().default(null),
+    tags: z.array(z.string({ coerce: true })).default([]),
     createdAt: z.date(),
 });
 
 type Schema = typeof LogSchema;
 
-export type LogDTO = AbstractModelProps & z.output<Schema>;
+export type LogDTO = AbstractModelProps & z.output<Schema> & { type: LogType; duration: number };
 
 export type CreateLogDTO = Omit<z.input<Schema>, "createdAt">;
 
-export type RestoreLogDTO = RequireOnly<LogDTO, "id">;
+export type RestoreLogDTO = Omit<RequireOnly<LogDTO, "id">, "type" | "duration">;
 
-export type LogSimplifiedDTO = { type: LogType; duration: number } & Omit<LogDTO, "context" | "error" | "stack">;
+export type LogSimplifiedDTO = Pick<LogDTO, "type" | "duration"> & Omit<LogDTO, "context" | "error" | "stack">;
 
 export type TotalDailyLogs = Record<LogLevels, number> & {
     date: Date;

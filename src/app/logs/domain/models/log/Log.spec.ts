@@ -19,6 +19,7 @@ describe("domain entity log", () => {
                 duration: 80,
             },
             externalId: "get-users-00987",
+            tags: ["api", "backend"],
         };
         const logOrError = Log.create(input);
         expect(logOrError.isRight()).toBeTruthy();
@@ -33,6 +34,7 @@ describe("domain entity log", () => {
         expect(log.context.status).toBe(200);
         expect(log.duration).toBe(80);
         expect(log.externalId).toBe("get-users-00987");
+        expect(log.tags).toEqual(["api", "backend"]);
         expect(log.error).toBeNull();
         expect(log.stack).toBeNull();
     });

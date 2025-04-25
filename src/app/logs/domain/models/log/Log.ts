@@ -19,7 +19,8 @@ export class Log extends Model<LogDTO> {
     }
 
     static restore(props: RestoreLogDTO) {
-        return new Log(props);
+        const { context } = props;
+        return new Log({ ...props, type: context.type, duration: (context.duration as number) || 0 });
     }
 
     get type() {

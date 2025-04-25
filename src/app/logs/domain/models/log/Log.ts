@@ -1,4 +1,4 @@
-import { Either, left, right } from "ts-arch-kit/dist/core/helpers";
+import { Either, left, parseNumber, right } from "ts-arch-kit/dist/core/helpers";
 
 import { Model } from "@/app/_common";
 import { ValidationError } from "@/app/_common/errors";
@@ -22,51 +22,39 @@ export class Log extends Model<LogDTO> {
     }
 
     get type() {
-        return this.props.type;
+        return this.props.context.type;
     }
 
     get projectId() {
         return this.props.projectId;
     }
 
-    get path() {
-        return this.props.path;
-    }
-
-    get method() {
-        return this.props.method;
-    }
-
     get externalId() {
         return this.props.externalId;
-    }
-
-    get statusCode() {
-        return this.props.statusCode;
-    }
-
-    get statusText() {
-        return this.props.statusText;
     }
 
     get level() {
         return this.props.level;
     }
 
-    get duration() {
-        return this.props.duration;
+    get message() {
+        return this.props.message;
     }
 
     get context() {
         return this.props.context;
     }
 
-    get response() {
-        return this.props.response;
+    get duration() {
+        return parseNumber(this.context.duration);
     }
 
     get error() {
         return this.props.error;
+    }
+
+    get stack() {
+        return this.props.stack;
     }
 
     get createdAt() {
@@ -78,12 +66,9 @@ export class Log extends Model<LogDTO> {
             id: this.getId(),
             type: this.type,
             projectId: this.projectId,
-            path: this.path,
-            method: this.method,
             externalId: this.externalId,
-            statusCode: this.statusCode,
-            statusText: this.statusText,
             level: this.level,
+            message: this.message,
             duration: this.duration,
             createdAt: this.createdAt,
         };

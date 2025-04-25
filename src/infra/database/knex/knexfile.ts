@@ -1,4 +1,7 @@
+import dotenv from "dotenv";
 import type { Knex } from "knex";
+
+dotenv.config({ path: "../../../../.env" });
 
 const config: { [key: string]: Knex.Config } = {
     test: {
@@ -10,9 +13,11 @@ const config: { [key: string]: Knex.Config } = {
     development: {
         client: "pg",
         connection: {
-            database: "observium",
-            user: "postgres",
-            password: "postgres",
+            host: process.env.DATABASE_HOST,
+            port: Number(process.env.DATABASE_PORT),
+            database: process.env.DATABASE_DB,
+            user: process.env.DATABASE_USER,
+            password: process.env.DATABASE_PASSWORD,
         },
         pool: {
             min: 2,

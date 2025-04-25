@@ -39,6 +39,7 @@ export class KnexLogRepository extends DefaultKnexRepository<Log, KnexLogDTO> im
             "level",
             "message",
             "duration",
+            "tags",
             "created_at"
         );
         this.filter(conn, filter);
@@ -58,6 +59,7 @@ export class KnexLogRepository extends DefaultKnexRepository<Log, KnexLogDTO> im
             level: row.level,
             message: row.message,
             duration: parseNumber(row.duration),
+            tags: row.tags ? row.tags.split(",") : [],
             createdAt: row.created_at,
         }));
     }

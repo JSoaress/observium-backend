@@ -42,5 +42,6 @@ export type KnexLogDTO = KnexModel & {
     context: string | null;
     error: string | null;
     stack: string | null;
+    tags: string | null;
     created_at: Date;
 };

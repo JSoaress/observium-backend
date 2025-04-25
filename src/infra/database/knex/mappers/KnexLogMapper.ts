@@ -17,6 +17,7 @@ export const KNEX_LOG_FILTER: DbFilterOptions = {
         context: { columnName: "context", type: "string" },
         error: { columnName: "error", type: "string" },
         stack: { columnName: "stack", type: "string" },
+        tags: { columnName: "tags", type: "string" },
         createdAt: { columnName: "created_at", type: "date" },
     },
 } as const;
@@ -32,6 +33,7 @@ export class KnexLogMapper implements IMapper<Log, KnexLogDTO> {
             context: persistence.context ? JSON.parse(persistence.context) : null,
             error: persistence.error ? JSON.parse(persistence.error) : null,
             stack: persistence.stack ? JSON.parse(persistence.stack) : null,
+            tags: persistence.tags ? persistence.tags.split(",") : [],
             createdAt: persistence.created_at,
         });
     }
@@ -48,6 +50,7 @@ export class KnexLogMapper implements IMapper<Log, KnexLogDTO> {
             context: entity.context ? JSON.stringify(entity.context) : null,
             error: entity.error ? JSON.stringify(entity.error) : null,
             stack: entity.stack ? JSON.stringify(entity.stack) : null,
+            tags: entity.tags.length ? entity.tags.join() : null,
             created_at: entity.createdAt,
         };
     }

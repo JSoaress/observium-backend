@@ -1,6 +1,6 @@
 import { Knex } from "knex";
 
-const TABLE_NAME = "table_name";
+const TABLE_NAME = "logs";
 
 export async function up(knex: Knex): Promise<void> {
     await knex.schema.alterTable(TABLE_NAME, (table) => {

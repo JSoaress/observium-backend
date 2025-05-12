@@ -1,7 +1,7 @@
 /* eslint-disable max-classes-per-file */
 import { IPresenter } from "ts-arch-kit/dist/core/helpers";
 
-import { Log, LogDTO, LogSimplifiedDTO } from "@/app/logs/domain/models/log";
+import { Log, LogDTO } from "@/app/logs/domain/models/log";
 import { Project, ProjectDTO } from "@/app/logs/domain/models/project";
 import { APIKey, APIKeyDTO } from "@/app/users/domain/models/api-key";
 import { User, UserDTO } from "@/app/users/domain/models/user";
@@ -64,24 +64,6 @@ export class LogJsonPresenter implements IPresenter<Log, LogJson> {
             context: input.context,
             error: input.error,
             stack: input.stack,
-            tags: input.tags,
-            createdAt: input.createdAt,
-        };
-    }
-}
-
-export type LogSimplifiedJson = LogSimplifiedDTO;
-
-export class LogSimplifiedJsonPresenter implements IPresenter<LogSimplifiedDTO, LogSimplifiedJson> {
-    present(input: LogSimplifiedDTO): LogSimplifiedJson {
-        return {
-            id: input.id,
-            type: input.type,
-            projectId: input.projectId,
-            externalId: input.externalId,
-            level: input.level,
-            message: input.message,
-            duration: input.duration,
             tags: input.tags,
             createdAt: input.createdAt,
         };

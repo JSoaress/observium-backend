@@ -10,7 +10,7 @@ import { UnknownError } from "@/app/_common/errors";
 import { HttpRouteNotFoundError } from "@/infra/errors";
 import { env } from "@/shared/config/environment";
 
-import { httpErrorHandler } from "./routes/HttpErrorHandler";
+import { httpErrorHandler } from "./HttpErrorHandler";
 
 export class ExpressHttpServer extends Express {
     constructor() {
@@ -22,7 +22,8 @@ export class ExpressHttpServer extends Express {
     register(method: HttpMethods, url: string, callback: <T = unknown>(req: HttpRequest) => Promise<HttpResponse<T>>): void {
         this.app[method](`${this.baseUrl}${url}`, async (req, res) => {
             try {
-                const response = await callback(req);
+                const { params, query, headers, body } = req;
+                const response = await callback({ params, query, headers, body, requestUserToken: "" });
                 res.status(response.statusCode).send(response.body);
             } catch (error) {
                 if (error instanceof BasicError) {

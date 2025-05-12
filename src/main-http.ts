@@ -1,7 +1,7 @@
 import { UseCaseFactory } from "./app/_common";
 import { JsonWebToken } from "./infra/adapters/jwt";
 import { RepositoryFactory } from "./infra/database";
-import { ExpressHttpServer, HttpServerController } from "./infra/http/server";
+import { ExpressHttpServer, HttpServerController } from "./infra/http";
 import { MailFactory } from "./infra/providers/mail";
 import { NodeWebSocket } from "./infra/socket";
 import { env } from "./shared/config/environment";

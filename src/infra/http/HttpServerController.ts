@@ -137,7 +137,7 @@ export class HttpServerController extends Controller {
             {
                 method: "get",
                 path: "/projects/:slugOrId/logs/metrics/hourly",
-                useCase: this.useCaseFactory.authenticationDecorator(this.useCaseFactory.getLogByIdUseCase()),
+                useCase: this.useCaseFactory.authenticationDecorator(this.useCaseFactory.getHourlyLogsUseCase()),
                 buildInput: (req) => ({ projectIdOrSlug: req.params.slugOrId, requestUserToken: req.requestUserToken }),
             },
         ];

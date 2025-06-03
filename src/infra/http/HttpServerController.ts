@@ -121,11 +121,29 @@ export class HttpServerController extends Controller {
                 method: "post",
                 path: "/projects/:slug/logs/register",
                 useCase: this.useCaseFactory.authenticationDecorator(this.useCaseFactory.registerLogUseCase()),
-                buildInput: (req) => ({
-                    ...req.body,
-                    projectSlug: req.params.slug,
-                    requestUserToken: req.requestUserToken,
-                }),
+                buildInput: (req) => {
+                    const { slug: projectSlug } = req.params;
+                    const { body = {}, requestUserToken } = req;
+                    if (body.type === "OTHER" && body.context?._msg) {
+                        const { path, method, level, context, response, error } = body;
+                        const { _msg, ...ctx } = context;
+                        return {
+                            level,
+                            message: _msg,
+                            context: {
+                                type: "other",
+                                className: path,
+                                functionName: method,
+                                response,
+                                ...ctx,
+                            },
+                            error,
+                            projectSlug,
+                            requestUserToken,
+                        };
+                    }
+                    return { ...body, projectSlug, requestUserToken };
+                },
                 statusCode: HttpStatusCodes.CREATED,
             },
             {

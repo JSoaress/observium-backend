@@ -48,7 +48,7 @@ const LogContextSchema = z.discriminatedUnion("type", [
             type: z.literal(LOG_TYPES_VALUES[3]),
             queue: z.string({ coerce: true }).min(1),
             jobId: z.number({ coerce: true }).int().nonnegative().default(0),
-            status: z.enum(["started", "completed", "failed", "waiting"]).nullish().default(null),
+            status: z.string({ coerce: true }).nullish().default(null),
             duration: z.number({ coerce: true }).nonnegative().default(0),
         })
         .passthrough(),
@@ -66,7 +66,7 @@ export const LogSchema = z.object({
     message: z.string({ coerce: true }).min(1),
     context: LogContextSchema,
     error: z.record(z.any()).nullish().default(null),
-    stack: z.record(z.any()).nullish().default(null),
+    stack: z.string({ coerce: true }).nullish().default(null),
     tags: z.array(z.string({ coerce: true })).default([]),
     createdAt: z.date(),
 });

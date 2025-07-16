@@ -32,7 +32,7 @@ export class KnexLogMapper implements IMapper<Log, KnexLogDTO> {
             message: persistence.message,
             context: persistence.context ? JSON.parse(persistence.context) : null,
             error: persistence.error ? JSON.parse(persistence.error) : null,
-            stack: persistence.stack ? JSON.parse(persistence.stack) : null,
+            stack: persistence.stack,
             tags: persistence.tags ? persistence.tags.split(",") : [],
             createdAt: persistence.created_at,
         });
@@ -49,7 +49,7 @@ export class KnexLogMapper implements IMapper<Log, KnexLogDTO> {
             duration: entity.duration,
             context: entity.context ? JSON.stringify(entity.context) : null,
             error: entity.error ? JSON.stringify(entity.error) : null,
-            stack: entity.stack ? JSON.stringify(entity.stack) : null,
+            stack: entity.stack,
             tags: entity.tags.length ? entity.tags.join() : null,
             created_at: entity.createdAt,
         };

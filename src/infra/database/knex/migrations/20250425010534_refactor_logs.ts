@@ -13,6 +13,7 @@ export async function up(knex: Knex): Promise<void> {
         table.text("error").defaultTo(null);
         table.text("stack").defaultTo(null);
         table.index("type");
+        table.index("created_at");
     });
 }
 

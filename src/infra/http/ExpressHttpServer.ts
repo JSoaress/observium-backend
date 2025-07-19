@@ -1,26 +1,32 @@
 import cors from "cors";
+import express from "express";
 import helmet from "helmet";
+import { Server } from "http";
 import { BasicError } from "ts-arch-kit/dist/core/errors";
 import { HttpMethods } from "ts-arch-kit/dist/http";
 import { HttpResponse } from "ts-arch-kit/dist/http/server";
-import { HttpRequest } from "ts-arch-kit/dist/http/server/http-server";
-import { ExpressHttpServer as Express } from "ts-arch-kit/dist/http/server/implementations";
+import { HttpRequest, IHttpServer } from "ts-arch-kit/dist/http/server/http-server";
 
 import { UnknownError } from "@/app/_common/errors";
-import { HttpRouteNotFoundError } from "@/infra/errors";
 import { env } from "@/shared/config/environment";
 
+import { HttpRouteNotFoundError } from "../errors";
 import { httpErrorHandler } from "./HttpErrorHandler";
 
-export class ExpressHttpServer extends Express {
+export class ExpressHttpServer implements IHttpServer {
+    private app: express.Express;
+    private BASE_URL = "/api/v1.0";
+
     constructor() {
-        super("/api/v1.0");
+        this.app = express();
+        this.app.use(express.json());
         this.app.use(cors({ origin: env.allowedHost }));
         this.app.use(helmet());
     }
 
-    register(method: HttpMethods, url: string, callback: <T = unknown>(req: HttpRequest) => Promise<HttpResponse<T>>): void {
-        this.app[method](`${this.baseUrl}${url}`, async (req, res) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    register(method: HttpMethods, url: string, callback: <T = any>(req: HttpRequest) => Promise<HttpResponse<T>>): void {
+        this.app[method](`${this.BASE_URL}${url}`, async (req, res) => {
             try {
                 const { params, query, headers, body } = req;
                 const response = await callback({ params, query, headers, body, requestUserToken: "" });
@@ -44,5 +50,9 @@ export class ExpressHttpServer extends Express {
         });
         const cb = callback || (() => console.info(`Server running on port ${port} with express.`));
         this.app.listen(port, cb);
+    }
+
+    getServer(): Server {
+        throw new Error("Method not implemented.");
     }
 }

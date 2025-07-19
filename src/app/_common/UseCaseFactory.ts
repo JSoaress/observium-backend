@@ -14,6 +14,9 @@ import { GetLogByIdUseCase } from "../logs/application/use-cases/logs/get-log-by
 import { RegisterLogUseCase } from "../logs/application/use-cases/logs/register-log";
 import { CreateProjectUseCase } from "../logs/application/use-cases/projects/create-project";
 import { FetchProjectsUseCase } from "../logs/application/use-cases/projects/fetch-projects";
+import { AddMemberInWorkspaceUseCase } from "../organization/application/use-cases/workspace/add-member-in-workspace";
+import { CreateWorkspaceUseCase } from "../organization/application/use-cases/workspace/create-workspace";
+import { RemoveWorkspaceMemberUseCase } from "../organization/application/use-cases/workspace/remove-workspace-member";
 import { CreateAPIKeyUseCase } from "../users/application/use-cases/api-keys/create-api-key";
 import { FetchAPIKeysUseCase } from "../users/application/use-cases/api-keys/fetch-api-keys";
 import { ActivateUserUseCase } from "../users/application/use-cases/users/activate-user";
@@ -82,5 +85,17 @@ export class UseCaseFactory {
 
     createAPIKeyUseCase(): CreateAPIKeyUseCase {
         return new CreateAPIKeyUseCase({ repositoryFactory: this.repositoryFactory });
+    }
+
+    createWorkspaceUseCase(): CreateWorkspaceUseCase {
+        return new CreateWorkspaceUseCase({ repositoryFactory: this.repositoryFactory });
+    }
+
+    addWorkspaceMemberUseCase(): AddMemberInWorkspaceUseCase {
+        return new AddMemberInWorkspaceUseCase({ repositoryFactory: this.repositoryFactory });
+    }
+
+    removeWorkspaceMemberUseCase(): RemoveWorkspaceMemberUseCase {
+        return new RemoveWorkspaceMemberUseCase({ repositoryFactory: this.repositoryFactory });
     }
 }

@@ -13,7 +13,7 @@ export const ProjectSchema = z.object({
         .max(30)
         .regex(/^[a-zA-Z0-9-]+$/, "Informe apenas letras, dígitos e '-'."),
     url: z.string({ coerce: true }).url().nullish().default(null),
-    userId: EntityIdSchema,
+    workspaceId: EntityIdSchema,
 });
 
 type Schema = typeof ProjectSchema;

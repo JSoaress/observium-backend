@@ -5,7 +5,7 @@ import { HttpServerController as Controller, HttpRequest, HttpResponse, IHttpSer
 
 import { UseCaseFactory } from "@/app/_common";
 import { InvalidTokenError } from "@/app/_common/errors";
-import { Project } from "@/app/logs/domain/models/project";
+import { Project } from "@/app/projects/domain/models/project";
 import { APIKey } from "@/app/users/domain/models/api-key";
 
 import * as presenters from "../presenters/json";
@@ -76,7 +76,7 @@ export class HttpServerController extends Controller {
             {
                 method: "get",
                 path: "/projects",
-                useCase: this.useCaseFactory.authenticationDecorator(this.useCaseFactory.fetchProjectsUseCase()),
+                useCase: this.useCaseFactory.authenticationDecorator(this.useCaseFactory.fetchProjectsByWorkspaceUseCase()),
                 buildInput: (req) => ({ queryOptions: req.queryOptions, requestUserToken: req.requestUserToken }),
                 onSuccess: (value) => {
                     const { count, results } = value;

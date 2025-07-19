@@ -3,9 +3,10 @@ import { UnitOfWork } from "ts-arch-kit/dist/database";
 
 import { UseCase } from "@/app/_common";
 import { NotFoundModelError } from "@/app/_common/errors";
-import { Project } from "@/app/logs/domain/models/project";
+import { IProjectRepository } from "@/app/projects/application/repos";
+import { Project } from "@/app/projects/domain/models/project";
 
-import { IProjectRepository, ILogRepository } from "../../../repos";
+import { ILogRepository } from "../../../repos";
 import { FetchLogsUseCaseGateway, FetchLogsUseCaseInput, FetchLogsUseCaseOutput } from "./types";
 
 export class FetchLogsUseCase extends UseCase<FetchLogsUseCaseInput, FetchLogsUseCaseOutput> {

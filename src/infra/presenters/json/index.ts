@@ -2,8 +2,8 @@
 import { IPresenter } from "ts-arch-kit/dist/core/helpers";
 
 import { Log, LogDTO } from "@/app/logs/domain/models/log";
-import { Project, ProjectDTO } from "@/app/logs/domain/models/project";
 import { Workspace, WorkspaceDTO, WorkspaceMembershipDTO } from "@/app/organization/domain/models/workspace";
+import { Project, ProjectDTO } from "@/app/projects/domain/models/project";
 import { APIKey, APIKeyDTO } from "@/app/users/domain/models/api-key";
 import { User, UserDTO } from "@/app/users/domain/models/user";
 
@@ -26,11 +26,11 @@ export class ProjectJsonPresenter implements IPresenter<Project, ProjectJson> {
     present(input: Project): ProjectJson {
         return {
             id: input.getId(),
-            name: input.name,
-            description: input.description,
-            slug: input.slug,
-            url: input.url,
-            userId: input.userId,
+            name: input.get("name"),
+            description: input.get("description"),
+            slug: input.get("slug"),
+            url: input.get("url"),
+            workspaceId: input.get("workspaceId"),
         };
     }
 }

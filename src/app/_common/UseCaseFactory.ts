@@ -12,11 +12,11 @@ import { GetDailyLogsUseCase } from "../logs/application/use-cases/logs/get-dail
 import { GetHourlyLogsUseCase } from "../logs/application/use-cases/logs/get-hourly-logs";
 import { GetLogByIdUseCase } from "../logs/application/use-cases/logs/get-log-by-id";
 import { RegisterLogUseCase } from "../logs/application/use-cases/logs/register-log";
-import { CreateProjectUseCase } from "../logs/application/use-cases/projects/create-project";
-import { FetchProjectsUseCase } from "../logs/application/use-cases/projects/fetch-projects";
 import { AddMemberInWorkspaceUseCase } from "../organization/application/use-cases/workspace/add-member-in-workspace";
 import { CreateWorkspaceUseCase } from "../organization/application/use-cases/workspace/create-workspace";
 import { RemoveWorkspaceMemberUseCase } from "../organization/application/use-cases/workspace/remove-workspace-member";
+import { CreateProjectUseCase } from "../projects/application/use-cases/projects/create-project";
+import { FetchProjectsByWorkspaceUseCase } from "../projects/application/use-cases/projects/fetch-projects-by-workspace";
 import { CreateAPIKeyUseCase } from "../users/application/use-cases/api-keys/create-api-key";
 import { FetchAPIKeysUseCase } from "../users/application/use-cases/api-keys/fetch-api-keys";
 import { ActivateUserUseCase } from "../users/application/use-cases/users/activate-user";
@@ -51,8 +51,8 @@ export class UseCaseFactory {
         return new AuthenticateUserUseCase({ repositoryFactory: this.repositoryFactory, jwtAdapter: this.jwtAdapter });
     }
 
-    fetchProjectsUseCase(): FetchProjectsUseCase {
-        return new FetchProjectsUseCase({ repositoryFactory: this.repositoryFactory });
+    fetchProjectsByWorkspaceUseCase(): FetchProjectsByWorkspaceUseCase {
+        return new FetchProjectsByWorkspaceUseCase({ repositoryFactory: this.repositoryFactory });
     }
 
     createProjectUseCase(): CreateProjectUseCase {

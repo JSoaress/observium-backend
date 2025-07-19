@@ -1,6 +1,6 @@
 import { Either } from "ts-arch-kit/dist/core/helpers";
 
-import { MissingParamError, NotFoundModelError } from "@/app/_common/errors";
+import { ForbiddenError, MissingParamError, NotFoundModelError } from "@/app/_common/errors";
 import { TotalDailyLogs } from "@/app/logs/domain/models/log";
 import { User } from "@/app/users/domain/models/user";
 import { IRepositoryFactory } from "@/infra/database";
@@ -14,4 +14,4 @@ export type GetHourlyLogsUseCaseInput = {
     requestUser: User;
 };
 
-export type GetHourlyLogsUseCaseOutput = Either<MissingParamError | NotFoundModelError, TotalDailyLogs[]>;
+export type GetHourlyLogsUseCaseOutput = Either<MissingParamError | NotFoundModelError | ForbiddenError, TotalDailyLogs[]>;

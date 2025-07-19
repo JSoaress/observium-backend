@@ -1,11 +1,11 @@
 import { beforeAll, describe, expect, test } from "vitest";
 
-import { Project } from "@/app/logs/domain/models/project";
+import { Project } from "@/app/projects/domain/models/project";
 import { Password, User } from "@/app/users/domain/models/user";
 import { RepositoryFactory } from "@/infra/database";
 
-import { CreateProjectUseCaseInput } from "./types";
-import { CreateProjectUseCase } from "./use-case";
+import { CreateProjectUseCaseInput } from "./create-project.types";
+import { CreateProjectUseCase } from "./create-project.usecase";
 
 let useCase: CreateProjectUseCase;
 let requestUser: User;

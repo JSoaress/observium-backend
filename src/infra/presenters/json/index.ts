@@ -3,6 +3,7 @@ import { IPresenter } from "ts-arch-kit/dist/core/helpers";
 
 import { Log, LogDTO } from "@/app/logs/domain/models/log";
 import { Project, ProjectDTO } from "@/app/logs/domain/models/project";
+import { Workspace, WorkspaceDTO, WorkspaceMembershipDTO } from "@/app/organization/domain/models/workspace";
 import { APIKey, APIKeyDTO } from "@/app/users/domain/models/api-key";
 import { User, UserDTO } from "@/app/users/domain/models/user";
 
@@ -66,6 +67,19 @@ export class LogJsonPresenter implements IPresenter<Log, LogJson> {
             stack: input.stack,
             tags: input.tags,
             createdAt: input.createdAt,
+        };
+    }
+}
+
+type WorkspaceJson = WorkspaceDTO & { members: WorkspaceMembershipDTO[] };
+
+export class WorkspaceJsonPresenter implements IPresenter<Workspace, WorkspaceJson> {
+    present(input: Workspace): WorkspaceJson {
+        return {
+            id: input.getId(),
+            name: input.get("name"),
+            ownerId: input.get("ownerId"),
+            members: input.getMembers(),
         };
     }
 }

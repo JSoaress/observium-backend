@@ -1,6 +1,7 @@
 import { UnitOfWork } from "ts-arch-kit/dist/database";
 
 import { IAlertRuleRepository, ILogRepository, IProjectRepository } from "@/app/logs/application/repos";
+import { IWorkspaceRepository } from "@/app/organization/application/repos";
 import { IAPIKeyRepository, IUserRepository, IUserTokenRepository } from "@/app/users/application/repos";
 
 export interface IRepositoryFactory {
@@ -11,4 +12,5 @@ export interface IRepositoryFactory {
     createProjectRepository(): IProjectRepository;
     createLogRepository(): ILogRepository;
     createAlertRuleRepository(): IAlertRuleRepository;
+    createWorkspaceRepository(): IWorkspaceRepository;
 }

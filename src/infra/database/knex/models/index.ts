@@ -39,8 +39,8 @@ export type KnexLogDTO = KnexModel & {
     level: LogLevels;
     message: string;
     duration: number;
-    context: string | null;
-    error: string | null;
+    context: Record<string, unknown> | null;
+    error: Record<string, unknown> | null;
     stack: string | null;
     tags: string | null;
     created_at: Date;

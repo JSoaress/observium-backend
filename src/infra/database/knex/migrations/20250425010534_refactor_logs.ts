@@ -9,8 +9,8 @@ export async function up(knex: Knex): Promise<void> {
     });
     await knex.schema.alterTable(TABLE_NAME, (table) => {
         table.string("message").notNullable().defaultTo("");
-        table.text("context").defaultTo(null);
-        table.text("error").defaultTo(null);
+        table.jsonb("context").defaultTo(null);
+        table.jsonb("error").defaultTo(null);
         table.text("stack").defaultTo(null);
         table.index("type");
         table.index("created_at");

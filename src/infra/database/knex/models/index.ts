@@ -1,4 +1,5 @@
 import { LogLevels, LogType } from "@/app/logs/domain/models/log";
+import { WorkspaceMembershipRoles } from "@/app/organization/domain/models/workspace";
 
 export type KnexModel = { id: string };
 
@@ -44,4 +45,14 @@ export type KnexLogDTO = KnexModel & {
     stack: string | null;
     tags: string | null;
     created_at: Date;
+};
+
+export type KnexWorkspaceDTO = KnexModel & {
+    name: string;
+    owner_id: string;
+    members: (KnexModel & {
+        user_id: string;
+        workspace_id: string;
+        role: WorkspaceMembershipRoles;
+    })[];
 };

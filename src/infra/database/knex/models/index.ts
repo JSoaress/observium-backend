@@ -30,7 +30,7 @@ export type KnexProjectDTO = KnexModel & {
     description: string | null;
     slug: string;
     url: string | null;
-    user_id: string;
+    workspace_id: string;
 };
 
 export type KnexLogDTO = KnexModel & {

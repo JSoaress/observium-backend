@@ -1,6 +1,7 @@
 import { UnitOfWork } from "ts-arch-kit/dist/database";
 
 import { IProjectRepository, ILogRepository, IAlertRuleRepository } from "@/app/logs/application/repos";
+import { IWorkspaceRepository } from "@/app/organization/application/repos";
 import { IUserRepository, IUserTokenRepository, IAPIKeyRepository } from "@/app/users/application/repos";
 
 import { IRepositoryFactory } from "../IRepositoryFactory";
@@ -39,5 +40,9 @@ export class KnexRepositoryFactory implements IRepositoryFactory {
 
     createAlertRuleRepository(): IAlertRuleRepository {
         throw new Error("Method not implemented.");
+    }
+
+    createWorkspaceRepository(): IWorkspaceRepository {
+        return new repos.KnexWorkspaceRepository();
     }
 }

@@ -6,7 +6,12 @@ import { User } from "@/app/users/domain/models/user";
 import { ZodValidator } from "@/infra/libs/zod";
 import { UUID } from "@/shared/helpers";
 
-import { CreateWorkspaceMembershipDTO, WorkspaceMembershipDTO, WorkspaceMembershipSchema } from "./workspace-membership.dto";
+import {
+    CreateWorkspaceMembershipDTO,
+    WorkspaceMembershipDTO,
+    WorkspaceMembershipRoles,
+    WorkspaceMembershipSchema,
+} from "./workspace-membership.dto";
 import {
     AddMembershipInWorkspace,
     CreateWorkspaceDTO,
@@ -74,5 +79,15 @@ export class Workspace extends Model<WorkspaceDTO> {
 
     getMembers() {
         return [...this.members];
+    }
+
+    userBelongsToWorkspace(user: User): boolean {
+        return this.members.some((m) => m.userId === user.getId());
+    }
+
+    checkUserPermissionInWorkspace(user: User, is: WorkspaceMembershipRoles): boolean {
+        if (is === "admin") return this.members.some((m) => m.userId === user.getId() && m.role === is);
+        if (is === "member") return this.members.some((m) => m.userId === user.getId() && m.role !== "viewer");
+        return this.userBelongsToWorkspace(user);
     }
 }

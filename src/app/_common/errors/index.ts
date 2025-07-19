@@ -111,3 +111,9 @@ export class RemoveMembershipInWorkspaceError extends BasicError {
         super(`Não foi possível remover o membro da workspace "${workspace.get("name")}". MOTIVO: ${reason}`, true);
     }
 }
+
+export class ForbiddenError extends BasicError {
+    constructor(message = "Você não possui permissão para acessar o recurso.") {
+        super(message, true);
+    }
+}

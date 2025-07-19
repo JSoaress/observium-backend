@@ -158,6 +158,40 @@ export class HttpServerController extends Controller {
                 useCase: this.useCaseFactory.authenticationDecorator(this.useCaseFactory.getHourlyLogsUseCase()),
                 buildInput: (req) => ({ projectIdOrSlug: req.params.slugOrId, requestUserToken: req.requestUserToken }),
             },
+            // organizations
+            {
+                method: "post",
+                path: "/organizations/workspaces",
+                useCase: this.useCaseFactory.authenticationDecorator(this.useCaseFactory.createWorkspaceUseCase()),
+                buildInput: (req) => ({ ...req.body, requestUserToken: req.requestUserToken }),
+                statusCode: HttpStatusCodes.CREATED,
+                onSuccess: (value) => {
+                    const presenter = new presenters.WorkspaceJsonPresenter();
+                    return presenter.present(value);
+                },
+            },
+            {
+                method: "post",
+                path: "/organizations/workspaces/:workspace/members",
+                useCase: this.useCaseFactory.authenticationDecorator(this.useCaseFactory.addWorkspaceMemberUseCase()),
+                buildInput: (req) => ({
+                    ...req.body,
+                    workspace: req.params.workspace,
+                    requestUserToken: req.requestUserToken,
+                }),
+                statusCode: HttpStatusCodes.NO_CONTENT,
+            },
+            {
+                method: "delete",
+                path: "/organizations/workspaces/:workspace/members",
+                useCase: this.useCaseFactory.authenticationDecorator(this.useCaseFactory.removeWorkspaceMemberUseCase()),
+                buildInput: (req) => ({
+                    ...req.body,
+                    workspace: req.params.workspace,
+                    requestUserToken: req.requestUserToken,
+                }),
+                statusCode: HttpStatusCodes.NO_CONTENT,
+            },
         ];
         this.registerRoutes(configs);
     }

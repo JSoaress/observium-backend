@@ -1,6 +1,8 @@
 /* eslint-disable max-classes-per-file */
 import { BasicError } from "ts-arch-kit/dist/core/errors";
 
+import { Workspace } from "@/app/organization/domain/models/workspace";
+
 export class ValidationError extends BasicError {
     constructor(model: string, private errors: Record<string, string[]>) {
         super(`Erro de validação em "${model}"`, true);
@@ -95,5 +97,17 @@ export class EmailTakenError extends ConflictError {
 export class InvalidAPIKeyError extends ConflictError {
     constructor(message: string) {
         super(message);
+    }
+}
+
+export class AddMembershipInWorkspaceError extends BasicError {
+    constructor(workspace: Workspace, reason: string) {
+        super(`Não foi possível adicionar o membro na workspace "${workspace.get("name")}". MOTIVO: ${reason}`, true);
+    }
+}
+
+export class RemoveMembershipInWorkspaceError extends BasicError {
+    constructor(workspace: Workspace, reason: string) {
+        super(`Não foi possível remover o membro da workspace "${workspace.get("name")}". MOTIVO: ${reason}`, true);
     }
 }

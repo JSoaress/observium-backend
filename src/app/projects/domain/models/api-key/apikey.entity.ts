@@ -1,18 +1,16 @@
+import { randomBytes } from "node:crypto";
 import { Either, left, right } from "ts-arch-kit/dist/core/helpers";
 
 import { Model } from "@/app/_common";
 import { ValidationError } from "@/app/_common/errors";
 import { ZodValidator } from "@/infra/libs/zod";
 
-import { APIKeyDTO, CreateAPIKeyDTO, APIKeySchema, RestoreAPIKeyDTO } from "./APIKeyDTO";
+import { APIKeyDTO, CreateAPIKeyDTO, APIKeySchema, RestoreAPIKeyDTO } from "./apikey.dto";
 
 export class APIKey extends Model<APIKeyDTO> {
-    private constructor(props: APIKeyDTO) {
-        super(props);
-    }
-
     static create(props: CreateAPIKeyDTO): Either<ValidationError, APIKey> {
-        const validDataOrError = ZodValidator.validate(props, APIKeySchema);
+        const key = `api_${randomBytes(32).toString("hex")}`;
+        const validDataOrError = ZodValidator.validate({ ...props, key }, APIKeySchema);
         if (!validDataOrError.success) return left(new ValidationError(APIKey.name, validDataOrError.errors));
         return right(new APIKey(validDataOrError.data));
     }
@@ -21,28 +19,8 @@ export class APIKey extends Model<APIKeyDTO> {
         return new APIKey(props);
     }
 
-    get alias() {
-        return this.props.alias;
-    }
-
-    get key() {
-        return this.props.key;
-    }
-
-    get userId() {
-        return this.props.userId;
-    }
-
-    get expiresIn() {
-        return this.props.expiresIn;
-    }
-
-    get active() {
-        return this.props.active;
-    }
-
     isValid(date = new Date()) {
-        if (!this.active) return false;
-        return this.expiresIn ? this.expiresIn >= date : true;
+        if (!this.props.active) return false;
+        return this.props.expiresIn ? this.props.expiresIn >= date : true;
     }
 }

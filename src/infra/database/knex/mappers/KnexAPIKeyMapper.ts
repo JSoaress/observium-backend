@@ -1,6 +1,6 @@
 import { IMapper } from "ts-arch-kit/dist/database";
 
-import { APIKey } from "@/app/users/domain/models/api-key";
+import { APIKey } from "@/app/projects/domain/models/api-key";
 
 import { DbFilterOptions } from "../../helpers";
 import { KnexAPIKeyDTO } from "../models";
@@ -10,7 +10,7 @@ export const KNEX_API_KEY_FILTER: DbFilterOptions = {
         id: { columnName: "id", type: "string" },
         alias: { columnName: "name", type: "string" },
         key: { columnName: "key", type: "string" },
-        userId: { columnName: "user_id", type: "string" },
+        projectId: { columnName: "project_id", type: "string" },
         expiresIn: { columnName: "expires_in", type: "date" },
         active: { columnName: "active", type: "boolean" },
     },
@@ -22,7 +22,7 @@ export class KnexAPIKeyMapper implements IMapper<APIKey, KnexAPIKeyDTO> {
             id: persistence.id,
             alias: persistence.alias,
             key: persistence.key,
-            userId: persistence.user_id,
+            projectId: persistence.project_id,
             expiresIn: persistence.expires_in,
             active: persistence.active,
         });
@@ -31,11 +31,11 @@ export class KnexAPIKeyMapper implements IMapper<APIKey, KnexAPIKeyDTO> {
     toPersistence(entity: APIKey): KnexAPIKeyDTO {
         return {
             id: entity.getId(),
-            alias: entity.alias,
-            key: entity.key,
-            user_id: entity.userId,
-            expires_in: entity.expiresIn,
-            active: entity.active,
+            alias: entity.get("alias"),
+            key: entity.get("key"),
+            project_id: entity.get("projectId"),
+            expires_in: entity.get("expiresIn"),
+            active: entity.get("active"),
         };
     }
 }

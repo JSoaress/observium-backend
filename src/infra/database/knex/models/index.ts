@@ -20,7 +20,7 @@ export type KnexUserTokenDTO = KnexModel & {
 export type KnexAPIKeyDTO = KnexModel & {
     alias: string;
     key: string;
-    user_id: string;
+    project_id: string;
     expires_in: Date | null;
     active: boolean;
 };

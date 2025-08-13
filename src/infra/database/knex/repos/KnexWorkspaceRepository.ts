@@ -17,8 +17,16 @@ export class KnexWorkspaceRepository
         super("workspaces", new KnexWorkspaceMapper(), KNEX_WORKSPACE_FILTER);
     }
 
-    getByUser(user: User, queryOptions?: QueryOptions): Promise<Workspace[]> {
-        throw new Error("Method not implemented.");
+    async getByUser(user: User, queryOptions?: QueryOptions): Promise<Workspace[]> {
+        const client = this.getTransaction();
+        const conn = client.raw<{ rows: { id: string }[] }>(`select w.id from workspaces w
+            inner join workspaces_memberships wm on wm.workspace_id = w.id
+            where wm.user_id = '${user.getId()}'`);
+        const { rows } = await conn;
+        const workspaceIds = rows.map((row) => row.id);
+        const { filter = {} } = queryOptions || {};
+        filter.id = { $in: workspaceIds };
+        return this.find({ ...queryOptions, filter });
     }
 
     async find(queryOptions?: QueryOptions<Record<string, unknown>>): Promise<Workspace[]> {

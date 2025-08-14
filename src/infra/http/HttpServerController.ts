@@ -5,8 +5,9 @@ import { HttpServerController as Controller, HttpRequest, HttpResponse, IHttpSer
 
 import { UseCaseFactory } from "@/app/_common";
 import { InvalidTokenError } from "@/app/_common/errors";
+import { Workspace } from "@/app/organization/domain/models/workspace";
+import { APIKey } from "@/app/projects/domain/models/api-key";
 import { Project } from "@/app/projects/domain/models/project";
-import { APIKey } from "@/app/users/domain/models/api-key";
 
 import * as presenters from "../presenters/json";
 import { HttpErrorHandler } from "./HttpErrorHandler";
@@ -48,11 +49,55 @@ export class HttpServerController extends Controller {
                 buildInput: (req) => ({ token: req.params.token }),
                 statusCode: HttpStatusCodes.NO_CONTENT,
             },
+            // projects
+            {
+                method: "get",
+                path: "/organizations/workspaces/projects",
+                useCase: this.useCaseFactory.authenticationDecorator(this.useCaseFactory.fetchProjectsUseCase()),
+                buildInput: (req) => ({ queryOptions: req.queryOptions, requestUserToken: req.requestUserToken }),
+                onSuccess: (value) => {
+                    const { count, results } = value;
+                    const presenter = new presenters.ProjectJsonPresenter();
+                    const projectsJson = results.map((result: Project) => presenter.present(result));
+                    return { count, results: projectsJson };
+                },
+            },
+            {
+                method: "get",
+                path: "/organizations/workspaces/:workspace/projects",
+                useCase: this.useCaseFactory.authenticationDecorator(this.useCaseFactory.fetchProjectsByWorkspaceUseCase()),
+                buildInput: (req) => ({
+                    workspace: req.params.workspace,
+                    queryOptions: req.queryOptions,
+                    requestUserToken: req.requestUserToken,
+                }),
+                onSuccess: (value) => {
+                    const { count, results } = value;
+                    const presenter = new presenters.ProjectJsonPresenter();
+                    const projectsJson = results.map((result: Project) => presenter.present(result));
+                    return { count, results: projectsJson };
+                },
+            },
+            {
+                method: "post",
+                path: "/organizations/workspaces/:workspace/projects",
+                useCase: this.useCaseFactory.authenticationDecorator(this.useCaseFactory.createProjectUseCase()),
+                buildInput: (req) => ({
+                    ...req.body,
+                    workspace: req.params.workspace,
+                    requestUserToken: req.requestUserToken,
+                }),
+                statusCode: HttpStatusCodes.CREATED,
+                onSuccess: (value) => {
+                    const presenter = new presenters.ProjectJsonPresenter();
+                    return presenter.present(value);
+                },
+            },
             // api keys
             {
                 method: "get",
-                path: "/users/api-keys",
-                useCase: this.useCaseFactory.authenticationDecorator(this.useCaseFactory.fetchAPIKeysUseCase()),
+                path: "/projects/api-keys",
+                useCase: this.useCaseFactory.authenticationDecorator(this.useCaseFactory.fetchAPIKeysByUserUseCase()),
                 buildInput: (req) => ({ queryOptions: req.queryOptions, requestUserToken: req.requestUserToken }),
                 onSuccess: (value) => {
                     const { count, results } = value;
@@ -63,36 +108,16 @@ export class HttpServerController extends Controller {
             },
             {
                 method: "post",
-                path: "/users/api-keys",
+                path: "/projects/:projectId/api-keys",
                 useCase: this.useCaseFactory.authenticationDecorator(this.useCaseFactory.createAPIKeyUseCase()),
-                buildInput: (req) => ({ ...req.body, requestUserToken: req.requestUserToken }),
+                buildInput: (req) => ({
+                    ...req.body,
+                    projectId: req.params.projectId,
+                    requestUserToken: req.requestUserToken,
+                }),
                 statusCode: HttpStatusCodes.CREATED,
                 onSuccess: (value) => {
                     const presenter = new presenters.APIKeyJsonPresenter();
-                    return presenter.present(value);
-                },
-            },
-            // projects
-            {
-                method: "get",
-                path: "/projects",
-                useCase: this.useCaseFactory.authenticationDecorator(this.useCaseFactory.fetchProjectsByWorkspaceUseCase()),
-                buildInput: (req) => ({ queryOptions: req.queryOptions, requestUserToken: req.requestUserToken }),
-                onSuccess: (value) => {
-                    const { count, results } = value;
-                    const presenter = new presenters.ProjectJsonPresenter();
-                    const projectsJson = results.map((result: Project) => presenter.present(result));
-                    return { count, results: projectsJson };
-                },
-            },
-            {
-                method: "post",
-                path: "/projects",
-                useCase: this.useCaseFactory.authenticationDecorator(this.useCaseFactory.createProjectUseCase()),
-                buildInput: (req) => ({ ...req.body, requestUserToken: req.requestUserToken }),
-                statusCode: HttpStatusCodes.CREATED,
-                onSuccess: (value) => {
-                    const presenter = new presenters.ProjectJsonPresenter();
                     return presenter.present(value);
                 },
             },
@@ -120,7 +145,7 @@ export class HttpServerController extends Controller {
             {
                 method: "post",
                 path: "/projects/:slug/logs/register",
-                useCase: this.useCaseFactory.authenticationDecorator(this.useCaseFactory.registerLogUseCase()),
+                useCase: this.useCaseFactory.checkAPIKeyDecorator(this.useCaseFactory.registerLogUseCase()),
                 buildInput: (req) => {
                     const { slug: projectSlug } = req.params;
                     const { body = {}, requestUserToken } = req;
@@ -139,10 +164,11 @@ export class HttpServerController extends Controller {
                             },
                             error,
                             projectSlug,
-                            requestUserToken,
+                            projectIdOrSlug: projectSlug,
+                            key: requestUserToken,
                         };
                     }
-                    return { ...body, projectSlug, requestUserToken };
+                    return { ...body, projectSlug, projectIdOrSlug: projectSlug, key: requestUserToken };
                 },
                 statusCode: HttpStatusCodes.CREATED,
             },
@@ -159,6 +185,18 @@ export class HttpServerController extends Controller {
                 buildInput: (req) => ({ projectIdOrSlug: req.params.slugOrId, requestUserToken: req.requestUserToken }),
             },
             // organizations
+            {
+                method: "get",
+                path: "/organizations/workspaces",
+                useCase: this.useCaseFactory.authenticationDecorator(this.useCaseFactory.getUserMembershipWorkspaces()),
+                buildInput: (req) => ({ queryOptions: req.queryOptions, requestUserToken: req.requestUserToken }),
+                onSuccess: (value) => {
+                    const { count, results } = value;
+                    const presenter = new presenters.WorkspaceJsonPresenter();
+                    const workspacesJson = results.map((result: Workspace) => presenter.present(result));
+                    return { count, results: workspacesJson };
+                },
+            },
             {
                 method: "post",
                 path: "/organizations/workspaces",

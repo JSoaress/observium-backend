@@ -20,7 +20,7 @@ const LogContextSchema = z.discriminatedUnion("type", [
     z
         .object({
             type: z.literal(LOG_TYPES_VALUES[0]),
-            method: z.enum(HTTP_METHODS_VALUES),
+            method: z.preprocess((arg) => `${arg}`.toUpperCase(), z.enum(HTTP_METHODS_VALUES)),
             url: z.string({ coerce: true }).min(1),
             status: z.number({ coerce: true }).int().nonnegative().default(0),
             duration: z.number({ coerce: true }).nonnegative().default(0),

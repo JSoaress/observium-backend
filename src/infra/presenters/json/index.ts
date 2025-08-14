@@ -3,8 +3,8 @@ import { IPresenter } from "ts-arch-kit/dist/core/helpers";
 
 import { Log, LogDTO } from "@/app/logs/domain/models/log";
 import { Workspace, WorkspaceDTO, WorkspaceMembershipDTO } from "@/app/organization/domain/models/workspace";
+import { APIKey, APIKeyDTO } from "@/app/projects/domain/models/api-key";
 import { Project, ProjectDTO } from "@/app/projects/domain/models/project";
-import { APIKey, APIKeyDTO } from "@/app/users/domain/models/api-key";
 import { User, UserDTO } from "@/app/users/domain/models/user";
 
 type UserJson = Omit<UserDTO, "password">;
@@ -41,11 +41,11 @@ export class APIKeyJsonPresenter implements IPresenter<APIKey, APIKeyJson> {
     present(input: APIKey): APIKeyJson {
         return {
             id: input.getId(),
-            alias: input.alias,
-            key: input.key,
-            userId: input.userId,
-            expiresIn: input.expiresIn,
-            active: input.active,
+            alias: input.get("alias"),
+            key: input.get("key"),
+            projectId: input.get("projectId"),
+            expiresIn: input.get("expiresIn"),
+            active: input.get("active"),
         };
     }
 }

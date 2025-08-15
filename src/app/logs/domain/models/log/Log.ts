@@ -8,7 +8,7 @@ import { CreateLogDTO, LogDTO, LogSchema, LogSimplifiedDTO, RestoreLogDTO } from
 
 export class Log extends Model<LogDTO> {
     private constructor(props: LogDTO) {
-        super(props);
+        super(props, () => 0);
     }
 
     static create(props: CreateLogDTO): Either<ValidationError, Log> {

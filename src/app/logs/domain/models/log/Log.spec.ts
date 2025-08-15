@@ -1,7 +1,5 @@
 import { describe, expect, test } from "vitest";
 
-import { UUID } from "@/shared/helpers";
-
 import { Log } from "./Log";
 import { CreateLogDTO } from "./LogDTO";
 
@@ -24,7 +22,7 @@ describe("domain entity log", () => {
         const logOrError = Log.create(input);
         expect(logOrError.isRight()).toBeTruthy();
         const log = logOrError.value as Log;
-        expect(UUID.validate(log.getId())).toBeTruthy();
+        expect(log.getId()).toBe("0");
         expect(log.type).toBe("http");
         expect(log.projectId).toBe("0195fea2-33f6-7bb8-858a-577665de1472");
         expect(log.level).toBe("info");
@@ -55,7 +53,7 @@ describe("domain entity log", () => {
         const logOrError = Log.create(input);
         expect(logOrError.isRight()).toBeTruthy();
         const log = logOrError.value as Log;
-        expect(UUID.validate(log.getId())).toBeTruthy();
+        expect(log.getId()).toBe("0");
         expect(log.type).toBe("function");
         expect(log.projectId).toBe("0195fea2-33f6-7bb8-858a-577665de1472");
         expect(log.level).toBe("debug");
@@ -83,7 +81,7 @@ describe("domain entity log", () => {
         const logOrError = Log.create(input);
         expect(logOrError.isRight()).toBeTruthy();
         const log = logOrError.value as Log;
-        expect(UUID.validate(log.getId())).toBeTruthy();
+        expect(log.getId()).toBe("0");
         expect(log.type).toBe("sql");
         expect(log.projectId).toBe("0195fea2-33f6-7bb8-858a-577665de1472");
         expect(log.level).toBe("notice");
@@ -112,7 +110,7 @@ describe("domain entity log", () => {
         const logOrError = Log.create(input);
         expect(logOrError.isRight()).toBeTruthy();
         const log = logOrError.value as Log;
-        expect(UUID.validate(log.getId())).toBeTruthy();
+        expect(log.getId()).toBe("0");
         expect(log.type).toBe("queue");
         expect(log.projectId).toBe("0195fea2-33f6-7bb8-858a-577665de1472");
         expect(log.level).toBe("warning");
@@ -140,7 +138,7 @@ describe("domain entity log", () => {
         const logOrError = Log.create(input);
         expect(logOrError.isRight()).toBeTruthy();
         const log = logOrError.value as Log;
-        expect(UUID.validate(log.getId())).toBeTruthy();
+        expect(log.getId()).toBe("0");
         expect(log.type).toBe("other");
         expect(log.projectId).toBe("0195fea2-33f6-7bb8-858a-577665de1472");
         expect(log.level).toBe("error");

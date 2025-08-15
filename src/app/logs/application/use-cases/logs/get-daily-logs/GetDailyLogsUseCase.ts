@@ -30,7 +30,7 @@ export class GetDailyLogsUseCase extends UseCase<GetDailyLogsUseCaseInput, GetDa
         if (!projectIdOrSlug) return left(new MissingParamError("projectIdOrSlug"));
         return this.unitOfWork.execute<GetDailyLogsUseCaseOutput>(async () => {
             // TODO: construir um metodo unico para buscar projeto por ID ou slug
-            const filter = { slug: projectIdOrSlug, userId: requestUser.getId() };
+            const filter = { slug: projectIdOrSlug };
             let project = await this.projectRepository.findOne({ filter });
             if (!project) project = await this.projectRepository.findById(projectIdOrSlug);
             if (!project) return left(new NotFoundModelError(Project.name, projectIdOrSlug));

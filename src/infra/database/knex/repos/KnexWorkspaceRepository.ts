@@ -52,16 +52,15 @@ export class KnexWorkspaceRepository
 
     async save(data: Workspace): Promise<Workspace> {
         const client = this.getTransaction();
-        const objToPersist = this.mapper.toPersistence(data);
+        const knexObject = this.mapper.toPersistence(data);
+        const objToPersist = this.removeFieldsFromObject(knexObject, ["members"]);
         if (data.isNew) {
-            const { members, ...rest } = objToPersist;
-            await client(this.tableName).insert(rest, "*");
-            await this.manageMemberships(objToPersist, client);
+            await client(this.tableName).insert(objToPersist, "*");
+            await this.manageMemberships(knexObject, client);
             return data;
         }
-        const { members, ...rest } = objToPersist;
-        await client(this.tableName).update(rest, "*").where({ id: data.getId() });
-        await this.manageMemberships(objToPersist, client);
+        await client(this.tableName).update(objToPersist, "*").where({ id: data.getId() });
+        await this.manageMemberships(knexObject, client);
         return data;
     }
 

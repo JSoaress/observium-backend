@@ -66,7 +66,7 @@ export class KnexLogRepository extends DefaultKnexRepository<Log, KnexLogDTO> im
 
     async getDailyLogsByProject(projectId: string): Promise<TotalDailyLogs> {
         const client = this.getTransaction();
-        const conn = client.raw<{ rows: KnexGetDailyLogs[] }>(`SELECT 
+        const conn = client.raw<{ rows: KnexGetDailyLogs[] }>(`SELECT
                 DATE_TRUNC('day', l.created_at) AS today,
                 COUNT(l.id) AS total_logs,
                 COUNT(l.id) FILTER (WHERE l.level = 'debug') AS total_debug,
@@ -97,7 +97,7 @@ export class KnexLogRepository extends DefaultKnexRepository<Log, KnexLogDTO> im
 
     async getHourlyLogsByProject(projectId: string): Promise<TotalDailyLogs[]> {
         const client = this.getTransaction();
-        const conn = client.raw<{ rows: KnexGetHourlyLogs[] }>(`SELECT 
+        const conn = client.raw<{ rows: KnexGetHourlyLogs[] }>(`SELECT
             DATE_TRUNC('hour', l.created_at) AS hour,
             COUNT(l.id) AS total_logs,
             COUNT(l.id) FILTER (WHERE l.level = 'debug') AS total_debug,
@@ -124,5 +124,16 @@ export class KnexLogRepository extends DefaultKnexRepository<Log, KnexLogDTO> im
             alert: parseNumber(row.total_alert),
             emergency: parseNumber(row.total_emergency),
         }));
+    }
+
+    async save(data: Log): Promise<Log> {
+        const client = this.getTransaction();
+        const objToPersist = this.removeFieldsFromObject(this.mapper.toPersistence(data), ["id"]);
+        if (data.isNew) {
+            const [persistedObj] = await client(this.tableName).insert(objToPersist, "*");
+            return this.mapper.toDomain(persistedObj);
+        }
+        const [updatedObj] = await client(this.tableName).update(objToPersist, "*").where({ id: data.getId() });
+        return this.mapper.toDomain(updatedObj);
     }
 }

@@ -95,4 +95,13 @@ export class DefaultKnexRepository<TDomain extends Model<any>, TPersistence exte
         const knexDatabaseFilter = new KnexDatabaseFilter(conn);
         knexDatabaseFilter.filter(this.filterOptions, filter);
     }
+
+    removeFieldsFromObject(obj: Record<string, unknown>, ignore?: string[]): Record<string, unknown> {
+        if (!ignore || !ignore.length) return obj;
+        const modifiedObj: Record<string, unknown> = {};
+        Object.entries(obj).forEach(([k, v]) => {
+            if (v !== undefined && !ignore?.includes(k)) modifiedObj[k] = v;
+        });
+        return modifiedObj;
+    }
 }
